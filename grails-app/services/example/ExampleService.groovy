@@ -15,7 +15,7 @@ class ExampleService {
         Integer times = 0
 
         List<GroovyRowResult> result = getResults()
-        while (result.size() > 0 || times < 25) {
+        while (result.size() > 0 && times < 25) {
 
             logAllRows("Outside eachParallel")
 
