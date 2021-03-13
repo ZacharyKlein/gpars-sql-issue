@@ -17,9 +17,8 @@ class ExampleService {
         List<GroovyRowResult> result = getResults()
         while (result.size() > 0 && times < 25) {
 
-            logAllRows("Outside eachParallel")
-
             GParsPool.withPool(threads) {
+                logAllRows("Outside eachParallel")
                 result.eachParallel { GroovyRowResult sre ->
                     logAllRows("Inside eachParallel")
                     cleanResult(sre)
@@ -27,10 +26,8 @@ class ExampleService {
             }
 
             times++
-
             result = getResults()
         }
-
     }
 
     void cleanResult(GroovyRowResult sre) {
@@ -56,6 +53,9 @@ class ExampleService {
 
 
     void logAllRows(String message) {
-        println "${message}: ${new Sql(dataSource).rows('select * from example_domain')}"
+        Sql sql = new Sql(dataSource)
+        def rows = sql.rows('select * from example_domain')
+
+        println "${message}: ${rows}"
     }
 }
